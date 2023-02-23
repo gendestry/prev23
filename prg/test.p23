@@ -1,0 +1,25 @@
+123 456 ; 
+# this is a COMMENT
+
+int x = fun '1';
+"qwe123"
+#01
+#00
+#'ž'
+#'asd'
+#'
+#"
+
+fun dela() : void {
+    ( ) { } [ ] . , : ; & | ! == != < > <= >= * / % + - ^ =
+    int
+    char
+    void
+    bool
+    true
+    false
+    typ
+    identifier hello this is all identifiable
+    #COMMENT
+		qwe
+}

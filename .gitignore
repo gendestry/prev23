@@ -1,0 +1,12 @@
+# General files from compilation
+*.class
+*.xml
+*.html
+*.p22
+*.mms
+*.mmo
+
+# Lexan phase
+*.interp
+*.tokens
+Prev*.java
