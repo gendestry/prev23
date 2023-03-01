@@ -1,0 +1,73 @@
+# basic declarations
+#type declarations
+typ typedec = char;
+typ typedec1 = int, typedec2 = void;
+
+#types
+typ brackets = [5]int;
+typ pointer = ^char;
+typ multi = {first:brackets, second:pointer, third:int};
+typ multione = {one:int};
+typ para = (int);
+typ zafukan = {one:^^^^[10]^^^^^^^(^^[5]^^^^^^^^int), two:^^^[10]^^^^(^^[7]^^^^brackets)}, zafukan2 = {one:^^^^[10]^^^^^^^(^^[5]^^^^^^^^int), two:^^^[10]^^^^(^^[7]^^^^brackets)};
+
+#variable declarations
+var vardec1 : char, vardec2 : bool, vardec3 : typedec1;
+var vardec : char;
+
+#function declarations
+fun fundec():typedec;
+fun fundecwarg(arg:int) : char;
+fun fundecwargs(arg1:typedec, arg2:int) : typedec1;
+fun fun1(arg:int):bool, fun2(arg1:int,arg2:int):bool, fun3():bool, fun4():bool;
+
+fun main():void =
+{
+    #expressions 
+    1 = 2; #lol
+    10;
+    10[10];
+    10[1];
+    10.zafukan;
+    10^;
+    (10:int);
+    new (int);
+    del (10);
+    10 + 10;
+    9 + 10 = 21;
+    !10;
+    vardec();
+    vardec(10,10);
+    vardec(10);
+
+    #statements
+    if (9 + 10 == 21) then
+    {
+        if (0) then
+        {
+            new (int)
+        }
+    }
+    else
+    {
+        new (char);
+        del (10)
+    };
+
+    while (10 < vardec) do 
+    {
+        let typ innertype = int, innertype2 = char; var innervar:innertype, innervar2:innertype2; fun innerfun1():bool, unnderfun2():innertype2;
+        in 
+        {
+            if (innerfun1()) then
+            {
+                innervar = 19
+            }
+            else
+            {
+                innervar = 21
+            };
+            innervar2 = innerfun2()
+        }
+    }
+};

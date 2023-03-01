@@ -1,25 +1,25 @@
-123 456 ; 
-# this is a COMMENT
+var i : int;
+var i : int, j : char;
 
-int x = fun '1';
-"qwe123"
-#01
-#00
-#'ž'
-#'asd'
-#'
-#"
+typ test = int;
+typ x = int, y = bool;
 
-fun dela() : void {
-    ( ) { } [ ] . , : ; & | ! == != < > <= >= * / % + - ^ =
-    int
-    char
-    void
-    bool
-    true
-    false
-    typ
-    identifier hello this is all identifiable
-    #COMMENT
-		qwe
-}
+fun neki() : bool;
+fun neki(y: int) : int;
+fun neki(y: int, x: char) : char;
+fun neki(y: int, x: char) : int, neki2() : bool;
+fun neki(y: int, x: char) : int, neki2(y:int, x:char, z:bool) : void;
+
+fun delaj() : int = a + b;
+fun delaj() : int = {
+    if x == 3 then {
+        a
+    }
+    else {
+        b
+    };
+
+    while (a < b) do a;
+
+    -a + b * (3 & c.x)
+};
