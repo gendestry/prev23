@@ -1,25 +1,49 @@
-var i : int;
-var i : int, j : char;
+# var i:int, j:char;
+# typ brackets = [5]int;
+# 
+# fun i(a: int) : int = {
+#     x = y + 3;
+#     x;
+#     x();
+#     x(y);
+# 
+# 
+#     if x == 3 then {
+#         x = 2
+#     };
+# 
+#     if z == 3 then {
+#         x = 2
+#     }
+#     else {
+#         y = 4
+#     };
+# 
+#     x = y - 3
+# };
 
-typ test = int;
-typ x = int, y = bool;
+#fun fundec():typedec;
+#fun fundecwarg(arg:int) : char;
+#fun fundecwargs(arg1:typedec, arg2:int) : typedec1;
+# fun fun1(arg:int):bool, fun2(arg1:int,arg2:int):bool; #, fun3():bool, fun4():bool;
+# fun fun1() : int, fun2() : bool;
+typ zafukan = {one:^^^^[10]^^^^^^^(^^[5]^^^^^^^^int), two:^^^[10]^^^^(^^[7]^^^^brackets)}, zafukan2 = {one:^^^^[10]^^^^^^^(^^[5]^^^^^^^^int), two:^^^[10]^^^^(^^[7]^^^^brackets)};
 
-fun neki() : bool;
-fun neki(y: int) : int;
-fun neki(y: int, x: char) : char;
-fun neki(y: int, x: char) : int, neki2() : bool;
-fun neki(y: int, x: char) : int, neki2(y:int, x:char, z:bool) : void;
-
-fun delaj() : int = a + b;
-fun delaj() : int = {
-    if x == 3 then {
-        a
-    }
-    else {
-        b
-    };
-
-    while (a < b) do a;
-
-    -a + b * (3 & c.x)
+fun i() : int = {
+    x + y * z;
+    1 = 2; #lol
+    10;
+    10[10];
+    10[1];
+    10.zafukan;
+    10^;
+    (10:int);
+    new (int);
+    del (10);
+    10 + 10;
+    9 + 10 = 21;
+    !10;
+    vardec();
+    vardec(10,10);
+    vardec(10)
 };

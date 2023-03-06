@@ -5,6 +5,7 @@ import java.util.*;
 import prev23.common.report.*;
 import prev23.phase.lexan.*;
 import prev23.phase.synan.*;
+import prev23.phase.abstr.*;
 
 /**
  * The compiler.
@@ -31,24 +32,22 @@ import prev23.phase.synan.*;
  */
 public class Compiler {
 
-	/**
-	 * (Unused but included to keep javadoc happy.)
-	 */
+	/** (Unused but included to keep javadoc happy.) */
 	private Compiler() {
 		throw new Report.InternalError();
 	}
 
 	// COMMAND LINE ARGUMENTS
-	
+
 	/** All valid phases of the compiler. */
-	private static final String phases = "none|lexan|synan";
+	private static final String phases = "none|lexan|synan|abstr";
 
 	/** Values of command line arguments indexed by their command line switch. */
 	private static HashMap<String, String> cmdLineArgs = new HashMap<String, String>();
 
 	/**
 	 * Returns the value of a command line argument.
-	 * 
+	 *
 	 * @param cmdLineArgName Command line argument name.
 	 * @return Command line argument value.
 	 */
@@ -110,13 +109,22 @@ public class Compiler {
 						}
 						break;
 					}
-				
+
 				// Syntax analysis.
 				try (LexAn lexan = new LexAn(); SynAn synan = new SynAn(lexan)) {
 					SynAn.tree = synan.parser.source();
 					synan.log(SynAn.tree);
 				}
 				if (Compiler.cmdLineArgValue("--target-phase").equals("synan"))
+					break;
+
+				// Abstract syntax tree construction.
+				try (Abstr abstr = new Abstr()) {
+					Abstr.tree = SynAn.tree.ast;
+					AbsLogger logger = new AbsLogger(abstr.logger);
+					Abstr.tree.accept(logger, null);
+				}
+				if (Compiler.cmdLineArgValue("--target-phase").equals("abstr"))
 					break;
 
 			}
