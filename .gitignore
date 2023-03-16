@@ -10,3 +10,6 @@
 *.interp
 *.tokens
 Prev*.java
+
+# vscode folder
+.vscode

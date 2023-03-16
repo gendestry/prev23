@@ -67,7 +67,7 @@ fun main():void =
             {
                 innervar = 21
             };
-            innervar2 = innerfun2()
+            innervar2 = unnderfun2()
         }
     }
 };
