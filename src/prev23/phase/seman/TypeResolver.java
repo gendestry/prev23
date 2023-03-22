@@ -119,6 +119,12 @@ public class TypeResolver extends AstFullVisitor<SemType, TypeResolver.Mode> {
 					throw new Report.Error(arrType, "Type error: index value too big.");
 				}
 			}
+			else {
+				throw new Report.Error(arrType, "Type error: index value must be of type int.");
+			}
+		}
+		else {
+			throw new Report.Error(arrType, "Type error: index value must be an atom expression.");
 		}
 
 		return ret;
@@ -240,9 +246,6 @@ public class TypeResolver extends AstFullVisitor<SemType, TypeResolver.Mode> {
 	// V4, V5, V6, V7
 	@Override
 	public SemType visit(AstBinExpr binExpr, Mode mode) {
-		// binExpr.fstExpr.accept(this, mode);
-		// binExpr.sndExpr.accept(this, mode);
-
 		SemType first = binExpr.fstExpr.accept(this, mode);
 		SemType second = binExpr.sndExpr.accept(this, mode);
 
@@ -266,13 +269,27 @@ public class TypeResolver extends AstFullVisitor<SemType, TypeResolver.Mode> {
 				else throw new Report.Error(binExpr, "Type error: +, -, *, /, % can only be used on int types.");
 				break;
 			case EQU, NEQ:
-				if(isInt(first) || isBool(first) || isChar(first) || isPtr(first))
+				// if(isInt(first) || isBool(first) || isChar(first) || isPtr(first))
+				if(isInt(first) || isBool(first) || isChar(first))
 					ret = new SemBool();
+				else if(isPtr(first)) {
+					if(!areEqual(((SemPtr)first.actualType()).baseType, ((SemPtr)second.actualType()).baseType)) {
+						throw new Report.Error(binExpr, "Type error: pointer base types in binary expression are not equal.");
+					}
+					ret = new SemBool();
+				}
 				else throw new Report.Error(binExpr, "Type error: ==, != can only be used on int, bool, char, ptr types.");
 				break;
 			case LTH, GTH, LEQ, GEQ:
-				if(isInt(first) || isChar(first) || isPtr(first))
+				// if(isInt(first) || isChar(first) || isPtr(first))
+				if(isInt(first) || isChar(first))
 					ret = new SemBool();
+				else if(isPtr(first)) {
+					if(!areEqual(((SemPtr)first.actualType()).baseType, ((SemPtr)second.actualType()).baseType)) {
+						throw new Report.Error(binExpr, "Type error: pointer base types in binary expression are not equal.");
+					}
+					ret = new SemBool();
+				}
 				else throw new Report.Error(binExpr, "Type error: <, >, <=, >= can only be used on int, char and ptr types.");
 				break;
 			default:
@@ -336,17 +353,17 @@ public class TypeResolver extends AstFullVisitor<SemType, TypeResolver.Mode> {
 	public SemType visit(AstArrExpr arrExpr, Mode mode) {
 		SemType arrType = arrExpr.arr.accept(this, mode);
 		SemType indexType = arrExpr.idx.accept(this, mode);
-
+		
 		if(arrType == null || indexType == null) 
 			throw new Report.Error(arrExpr, "Type error: missing type in array expression.");
 
-		if(!(indexType instanceof SemInt))
+		if(!(indexType.actualType() instanceof SemInt))
 			throw new Report.Error(arrExpr, "Type error: array index must be of int type.");
 
-		if(!(arrType instanceof SemArr))
+		if(!(arrType.actualType() instanceof SemArr))
 			throw new Report.Error(arrExpr, "Type error: expression not of array type.");
 
-		SemType ret = ((SemArr)arrType).elemType;
+		SemType ret = ((SemArr)arrType.actualType()).elemType;
 		SemAn.ofType.put(arrExpr, ret);
 		return ret;
 	}
@@ -379,9 +396,12 @@ public class TypeResolver extends AstFullVisitor<SemType, TypeResolver.Mode> {
 	// V12
 	@Override
 	public SemType visit(AstCallExpr callExpr, Mode mode) {
+		AstNameDecl nameDecl = SemAn.declaredAt.get(callExpr);
+		if(!(nameDecl instanceof AstFunDecl))
+			throw new Report.Error(callExpr, "Type error: call expression not of function type.");
+		
 		AstFunDecl decl = (AstFunDecl) SemAn.declaredAt.get(callExpr);
-		decl.type.accept(this, mode);
-		// SemType retType = decl.type.accept(this, mode);
+		SemType ret = decl.type.accept(this, mode);
 
 		int argSize = callExpr.args != null ? callExpr.args.size() : 0;
 		int paramSize = decl.pars != null ? decl.pars.size() : 0;
@@ -403,7 +423,6 @@ public class TypeResolver extends AstFullVisitor<SemType, TypeResolver.Mode> {
 			}
 		}
 
-		SemType ret = SemAn.isType.get(decl.type);
 		SemAn.ofType.put(callExpr, ret);
 		return ret;
 	}
@@ -414,11 +433,11 @@ public class TypeResolver extends AstFullVisitor<SemType, TypeResolver.Mode> {
 		SemType ogType = castExpr.expr.accept(this, mode);
 		SemType castType = castExpr.type.accept(this, mode);
 
-		if(!isChar(ogType) || !isInt(ogType) || !isBool(ogType))
-			throw new Report.Error(castExpr, "Type error: expression must be of char, int or bool type.");
+		if(!isChar(ogType) && !isInt(ogType) && !isPtr(ogType))
+			throw new Report.Error(castExpr, "Type error: expression must be of char, int or ptr type.");
 
-		if(!isChar(castType) || !isInt(castType) || !isBool(castType))
-			throw new Report.Error(castExpr, "Type error: cast type must be of char, int or bool type.");
+		if(!isChar(castType) && !isInt(castType) && !isPtr(castType))
+			throw new Report.Error(castExpr, "Type error: cast type must be of char, int or ptr type.");
 
 		SemAn.ofType.put(castExpr, castType);
 		return castType;
@@ -458,13 +477,20 @@ public class TypeResolver extends AstFullVisitor<SemType, TypeResolver.Mode> {
 		SemType eType1 = assignStmt.dst.accept(this, mode);
 		SemType eType2 = assignStmt.src.accept(this, mode);
 
-		if(eType1 == null || eType2 == null)
-			throw new Report.Error(assignStmt, "Type error: missing type in assignment statement.");
+		if(eType1 == null)
+			throw new Report.Error(assignStmt, "Type error: missing left type in assignment statement.");
+		else if(eType2 == null)
+			throw new Report.Error(assignStmt, "Type error: missing right type in assignment statement.");
 
 		if(!areEqual(eType1, eType2))
 			throw new Report.Error(assignStmt, "Type error: types in assignment statement do not match.");
 
-		if(!(isBool(eType1) || isInt(eType1) || isChar(eType1) || isPtr(eType1)))
+		if(isPtr(eType1)) {
+			if(!areEqual(((SemPtr)eType1.actualType()).baseType, ((SemPtr)eType2.actualType()).baseType)) {
+				throw new Report.Error(assignStmt, "Type error: pointer base types in assignment statement do not match.");
+			}
+		}
+		else if(!(isBool(eType1) || isInt(eType1) || isChar(eType1)))
 			throw new Report.Error(assignStmt, "Type error: types in assignment statement must be of bool, int, char or pointer type.");
 
 		SemType ret = new SemVoid();

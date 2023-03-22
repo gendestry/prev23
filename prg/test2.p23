@@ -24,37 +24,39 @@ fun fun1(arg:int):bool, fun2(arg1:int,arg2:int):bool, fun3():bool, fun4():bool;
 fun main():void =
 {
     #expressions 
-    1 = 2; #lol
+    vardec = (2:char); #lol
     10;
-    10[10];
-    10[1];
-    10.zafukan;
-    10^;
+    # 10[10];
+    # 10[1];
+    # 10.zafukan;
+    # 10^;
     (10:int);
     new (int);
-    del (10);
+    # del (10);
     10 + 10;
-    9 + 10 = 21;
-    !10;
-    vardec();
-    vardec(10,10);
-    vardec(10);
+    # 9 + 10 = 21;
+    # !10;
+    fundec();
+    #vardec(10,10);
+    #vardec(10);
 
     #statements
     if (9 + 10 == 21) then
     {
-        if (0) then
+        # if (0) then
+        if (true) then
         {
             new (int)
         }
     }
     else
     {
-        new (char);
-        del (10)
+        new (char)
+        # new (char);
+        # del (10)
     };
 
-    while (10 < vardec) do 
+    while (10 < (vardec:int)) do 
     {
         let typ innertype = int, innertype2 = char; var innervar:innertype, innervar2:innertype2; fun innerfun1():bool, unnderfun2():innertype2;
         in 

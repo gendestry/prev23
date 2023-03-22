@@ -71,6 +71,7 @@ public class NameResolver extends AstFullVisitor<Object, NameResolver.Mode> {
 
 			if(funDecl.pars != null) {
 				funDecl.pars.accept(this, Mode.HEAD);
+				funDecl.pars.accept(this, Mode.BODY);
 			}
 
 			if(funDecl.stmt != null) {

@@ -1,1 +1,81 @@
-var i:int;
+# typ cikel1 = {a:int, b:cikel2}, cikel2 = {a:int, b:cikel1}; 
+
+# typ indirect_linked = {ptr: ^r2}, r2 = {ptr: ^indirect_linked, _bool: int};
+# var l2: indirect_linked;
+
+# var i : int, c : char;
+# typ list = {head: int, tail: ^list};
+# typ number = int;
+# typ xd = [10]int; # fix
+# var i: number;
+# var arr : xd;
+# var arr2 : [10]int;
+
+# typ multi = {first:int, second:char, third:^int};
+# var rec : multi;
+
+var cptr : ^char;
+var iptr : ^int;
+
+# var arr : [1]int;
+typ sneaky = [10]int;
+
+fun g() : int = {
+    new(int)^
+};
+
+fun f() : void = {
+    g();
+    cptr = (iptr: ^char)
+};
+
+# fun f(j : int) : void = {
+#    i = j + rec.first;
+    # iptr = new(int);
+    # del(iptr);
+    # iptr == cptr;
+    # arr2[5];
+    # arr[i];
+    # 1
+#    none
+# };
+# typ indirect_linked = {ptr: ^r2}, r2 = {ptr: ^indirect_linked, _bool: int};
+# var l2: indirect_linked;
+
+# fun test_cyclic_access(): int = l2.ptr^.ptr^.ptr^._bool;
+
+# typ typedec = char;
+# typ typedec1 = int, typedec2 = void;
+# fun func(x : typedec) : typedec2 = {
+#     x = 'a';
+#     none
+# };
+
+# var x : [10]int;
+
+# fun fa(i : int, c : char) : int = {
+#     x[i] = (i + (c : int));
+
+#     if i == 0 then {
+#         c = 'a'
+#     }
+#     else {
+#         c = 'b';
+#         1
+#     };
+
+#     let typ cType = char; var y : int, ch : cType; in {
+#         ch = 'a';
+#         y = (ch : int);
+#         x[y] = y
+#     };
+
+#     let var ptr : ^int; in {
+#         ptr = new(int);
+#         ptr = (nil : ^int);
+#         rec.third = ptr
+#     };
+
+#     i
+# };
+#var y : [10+a]int;
