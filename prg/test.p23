@@ -1,15 +1,1 @@
-var i: int, j: char;
-var str: ^char;
-
-fun f(par : int) : int = {
-    par = i + (j : int);
-
-    let var xd : int; in {
-        xd = 5;
-        par = xd + 2
-    };
-
-    str = "abc";
-    
-    f(5)
-};
+var i:int;

@@ -1,0 +1,77 @@
+typ arr5Int = [5]int, recFull = { first: int, second: char, third: bool, fourth: arr5Int, fifth: ^recFull };
+
+var intVar: int, boolVar: bool, arrVar: arr5Int, recVar: recFull, ptrChar: ^char;
+
+fun funParams(first: char, second: int, third: bool, fourth: ^arr5Int, fifth: ^recFull): void, funVoid(): void;
+
+################
+
+fun main(): void = {
+#EX1
+    nil;
+    none;
+#EX2
+    true;
+    false;
+#EX3
+    'a';
+    69;
+#EX4
+    +5;
+    -42;
+    !true;
+#EX5
+    true | false;
+    false & true;
+    5 == 5;
+    5 != 5;
+    42 < 69;
+    42 > 69;
+    5 <= 5;
+    5 >= 5;
+    1 + 1;
+    69 - 42;
+    5 * 5;
+    6 / 3;
+    69 % 42;
+#EX6 (needs EX9)
+    ^intVar;
+    (^intVar)^;
+#EX7
+    new (arr5Int);
+#EX8 (needs EX9)
+    del(^arrVar);
+#EX9
+    boolVar;
+#EX10
+    arrVar[3];
+#EX11
+    recVar.fourth;
+#EX12
+    funVoid();
+    funParams('a', 5, false, ^arrVar, ^recVar);
+#EX14
+    ('a' : int);
+#EX15
+    (505 : char);
+
+#ST1 - Done in all expression statements
+#ST2
+    intVar = 5;
+#ST3
+    if (true) then 5;
+#ST4
+    if (false) then 'a' else 6;
+#ST5
+    while (5 > 2) do 5;
+#ST6
+    while (false) do true;
+#ST7
+    let var innerVar: int; in innerVar + 5;
+#ST8 visible everywhere
+
+#String test -> Should be label
+    "Hello";
+
+    none
+};
