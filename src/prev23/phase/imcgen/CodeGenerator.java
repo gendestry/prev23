@@ -239,7 +239,7 @@ public class CodeGenerator extends AstNullVisitor<Object, Stack<MemFrame>> {
 		ImcExpr memSpam = new ImcTEMP(stack.peek().FP);
 
 		if(currentDepth == 0) {
-			memSpam = new ImcMEM(new ImcCONST(0));
+			// memSpam = new ImcMEM(new ImcCONST(0));
 		}
 		else {
 			for(int i = 0; i <= currentDepth - funFrame.depth; i++)
@@ -367,6 +367,24 @@ public class CodeGenerator extends AstNullVisitor<Object, Stack<MemFrame>> {
 		declStmt.decls.accept(this, stack);
 
 		ImcStmt stmt = ImcGen.stmtImc.get(declStmt.stmt);
+		// ImcESTMT estmt = null;
+
+		// if(stmt instanceof ImcESTMT) {
+		// 	estmt = (ImcESTMT)stmt;
+		// }
+		// else if(stmt instanceof ImcSTMTS) {
+		// 	ImcSTMTS stmts = (ImcSTMTS)stmt;
+		// 	ImcStmt last = stmts.stmts.lastElement();
+
+		// 	if(last instanceof ImcESTMT) {
+		// 		estmt = new ImcESTMT(new ImcSEXPR(stmt, ((ImcESTMT) last).expr));
+		// 	}
+		// 	else throw new Report.Error(declStmt, "Unknown statement type");
+		// }
+		// else {
+		// 	throw new Report.Error(declStmt, "Unknown statement type");
+		// }
+
 		ImcGen.stmtImc.put(declStmt, stmt);
 		return stmt;
 	}
@@ -382,26 +400,58 @@ public class CodeGenerator extends AstNullVisitor<Object, Stack<MemFrame>> {
 			imcStmts.add(ImcGen.stmtImc.get(stmt));
 		}
 
-		ImcSEXPR sexpr = null;
-		if(last instanceof AstExprStmt) {
-			imcStmts.remove(imcStmts.size() - 1);
-			ImcExpr ex = ImcGen.exprImc.get(((AstExprStmt) last).expr);
-			sexpr = new ImcSEXPR(new ImcSTMTS(imcStmts), ex);
-		}
-		else {
-			sexpr = new ImcSEXPR(new ImcSTMTS(imcStmts), new ImcCONST(0L));
-		}
+		ImcStmt retStmts = new ImcSTMTS(imcStmts);
+		ImcGen.stmtImc.put(stmts, retStmts);
+		return retStmts;
 
-		ImcGen.stmtImc.put(stmts, new ImcESTMT(sexpr));
-		return sexpr;
+		// ImcSEXPR sexpr = null;
+		// if(last instanceof AstExprStmt) {
+		// 	imcStmts.remove(imcStmts.size() - 1);
+		// 	ImcExpr ex = ImcGen.exprImc.get(((AstExprStmt) last).expr);
+		// 	sexpr = new ImcSEXPR(new ImcSTMTS(imcStmts), ex);
+		// }
+		// else if(last instanceof AstDeclStmt) {
+		// 	imcStmts.remove(imcStmts.size() - 1);
+		// 	ImcStmt stmt = ImcGen.stmtImc.get(((AstDeclStmt) last).stmt);
+		// 	ImcESTMT estmt = null;
+
+		// 	if(stmt instanceof ImcESTMT) {
+		// 		estmt = (ImcESTMT)stmt;
+		// 		ImcGen.stmtImc.put(stmts, estmt);
+		// 		return estmt;
+		// 	}
+		// 	else if(stmt instanceof ImcSTMTS) {
+		// 		ImcSTMTS imcStmts2 = (ImcSTMTS)stmt;
+		// 		ImcStmt last2 = imcStmts2.stmts.lastElement();
+
+		// 		if(last2 instanceof ImcESTMT) {
+		// 			estmt = new ImcESTMT(new ImcSEXPR(stmt, ((ImcESTMT) last2).expr));
+		// 			ImcGen.stmtImc.put(stmts, estmt);
+		// 			return estmt;
+		// 		}
+		// 		else throw new Report.Error(stmts, "Unknown statement type");
+		// 	}
+		// 	else {
+		// 		throw new Report.Error(stmts, "Unknown statement type");
+		// 	}
+
+		// }
+		// else {
+		// 	sexpr = new ImcSEXPR(new ImcSTMTS(imcStmts), new ImcCONST(0L));
+		// }
+
+		// ImcStmt estmt = new ImcESTMT(sexpr);
+		// ImcGen.stmtImc.put(stmts, estmt);
+		// return estmt;
 	}
 
 
 	public Object visit(AstFunDecl funDecl, Stack<MemFrame> stack) {
 		stack.push(Memory.frames.get(funDecl));
 
-		if(funDecl.stmt != null)
+		if(funDecl.stmt != null) {
 			funDecl.stmt.accept(this, stack);
+		}
 		
 		stack.pop();
 		return null;

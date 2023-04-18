@@ -1,1 +1,145 @@
-var i:int;
+# # fun type_hello(s: ^char, offset: int): ^char = {
+# #     let var buff: ^[10]char; in {
+# #         buff = (s : ^[10]char);
+# #         buff^[offset+0] = 'h';
+# #         buff^[offset+1] = 'e';
+# #         buff^[offset+2] = 'l';
+# #         buff^[offset+3] = 'l';
+# #         buff^[offset+4] = 'o';
+# #         buff^[offset+5] = (0:char)
+# #     };
+# #     s
+# # };
+
+# # fun type_world(s: ^char, offset: int): ^char = {
+# #     let var buff: ^[10]char; in {
+# #         buff = (s : ^[10]char);
+# #         buff^[offset+0] = 'w';
+# #         buff^[offset+1] = 'o';
+# #         buff^[offset+2] = 'r';
+# #         buff^[offset+3] = 'l';
+# #         buff^[offset+4] = 'd';
+# #         buff^[offset+5] = '!';
+# #         buff^[offset+6] = (0:char)
+# #     };
+# #     s
+# # };
+
+
+# fun get(s: ^char, i: int): char = {
+#     ((s : int) + (i*8) : ^char)^
+# };
+# fun putChar(c: char): int;
+
+# fun print(s: ^char): void = {
+#     if (s != (nil : ^char)) then {
+#         let var i: int; in {
+#             i = 0;
+#             while get(s, i) != (0:char) do {
+#                 putChar(get(s, i));
+#                 i = i + 1
+#             }
+#         }
+#     };
+#     none
+# };
+
+# fun nl(): int = putChar((10:char));
+
+# fun println(s: ^char): void = {
+#     print(s);
+#     nl();
+#     none
+# };
+
+
+
+# # fun print(str: ^char) : void = {
+# #     let var i: int; in {
+# #         i = 0;
+
+# #     };
+
+# #     none
+# # };
+
+# var ret : int;
+# fun main(): int = {
+#     ret = strlen("penis penis");
+#     println("Hello world");
+#     # ret = strlen("hello");
+
+#     # println("HELLO WORLD!");
+
+#     # let var s1: [10]char, s2: ^char; in {
+
+#     #     s2 = (new ([10]char) : ^char);
+
+#     #     type_hello((^s1 : ^char), 0);
+#     #     type_world(s2, 0);
+
+#     #     print((^s1 : ^char));
+#     #     putChar(' ');
+#     #     print(s2);
+#     #     nl();
+
+#     #     none
+#     # };
+
+#     ret
+# };
+
+# fun get(s: ^char, i: int): char = {
+#     ((s : int) + (i*8) : ^char)^
+# };
+
+# var len : int;
+# fun strlen(s: ^char): int = {
+#     let var i: int; in {
+#         i = 0;
+#         if (s != (nil : ^char)) then {
+#             while get(s, i) != (0:char) do
+#                 i = i + 1
+#         };
+#         i
+#     }
+# };
+
+fun putChar(c: char) : void;
+
+fun putInt(x : int) : void = {
+	if (x < 0) then {
+		x = -x;
+		putChar('-')
+	};
+
+	if x/10 > 0 then putInt(x/10);
+	putChar((x%10 + ('0': int) : char))
+};
+
+fun println() : void = putChar((10 : char));
+
+fun returnThree() : int = 3;
+
+fun returnTwo() : int = let var i : int; in 2;
+
+fun returnOne() : int = {
+    let var i : int; in {
+        3
+    }
+};
+
+# var neki : ^char;
+fun main() : int = {
+    putInt(returnOne());
+    println();
+    0
+    # returnTwo()
+    # returnThree()
+    # neki = "penis";
+    # len = 0;
+    # strlen(neki);
+    # putChar(neki^);
+    # putInt(len);
+    # len
+};

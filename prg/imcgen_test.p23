@@ -1,77 +1,48 @@
-typ arr5Int = [5]int, recFull = { first: int, second: char, third: bool, fourth: arr5Int, fifth: ^recFull };
+# var seed:int;
+# fun random():int={seed=(75*(seed+1)-1)%65537;seed};
 
-var intVar: int, boolVar: bool, arrVar: arr5Int, recVar: recFull, ptrChar: ^char;
-
-fun funParams(first: char, second: int, third: bool, fourth: ^arr5Int, fifth: ^recFull): void, funVoid(): void;
-
-################
-
-fun main(): void = {
-#EX1
-    nil;
-    none;
-#EX2
-    true;
-    false;
-#EX3
-    'a';
-    69;
-#EX4
-    +5;
-    -42;
-    !true;
-#EX5
-    true | false;
-    false & true;
-    5 == 5;
-    5 != 5;
-    42 < 69;
-    42 > 69;
-    5 <= 5;
-    5 >= 5;
-    1 + 1;
-    69 - 42;
-    5 * 5;
-    6 / 3;
-    69 % 42;
-#EX6 (needs EX9)
-    ^intVar;
-    (^intVar)^;
-#EX7
-    new (arr5Int);
-#EX8 (needs EX9)
-    del(^arrVar);
-#EX9
-    boolVar;
-#EX10
-    arrVar[3];
-#EX11
-    recVar.fourth;
-#EX12
-    funVoid();
-    funParams('a', 5, false, ^arrVar, ^recVar);
-#EX14
-    ('a' : int);
-#EX15
-    (505 : char);
-
-#ST1 - Done in all expression statements
-#ST2
-    intVar = 5;
-#ST3
-    if (true) then 5;
-#ST4
-    if (false) then 'a' else 6;
-#ST5
-    while (5 > 2) do 5;
-#ST6
-    while (false) do true;
-#ST7
-    let var innerVar: int; in innerVar + 5;
-#ST8 visible everywhere
-
-#String test -> Should be label
-    "Hello";
-
-    none
-};
+fun putChar(c:char):void;
+# fun endLine():void=putChar((10:char));
+    
+fun putInt(n:int):void=
+      if n==0 then putChar('0') else
+      {
+        putChar('1')
+      };
+      
+# fun bubblesort(data:^[100]int):void=
+#       let var i:int;
+#           var j:int;
+#           var tmp:int;
+#       in
+#       {
+#         i=0;
+#         while i<99 do {
+#           j=0;
+#           while j<99-i do {
+#             if data^[j]>data^[j+1] then {
+#               tmp=data^[j];
+#               data^[j]=data^[j+1];
+#               data^[j+1]=tmp
+#             };
+#             j=j+1
+#           };
+#           i=i+1
+#         }
+#       };
+      
+fun main():void=putInt(5);
+    #   let var numbers:[100]int;
+    #       var sum:int;
+    #       var i:int;
+    #   in
+    #   {  
+    #      seed=0;
+    #      i=0;while i<100 do {numbers[i]=random()%99;i=i+1};
+    #      i=0;while i<100 do {putInt(numbers[i]);putChar(' ');i=i+1};
+    #      sum=0;i=0;while i<100 do {sum=sum+numbers[i];i=i+1};putInt(sum);endLine();
+    #      bubblesort(^numbers);
+    #      i=0;while i<100 do {putInt(numbers[i]);putChar(' ');i=i+1};
+    #      sum=0;i=0;while i<100 do {sum=sum+numbers[i];i=i+1};putInt(sum);endLine();  
+    #      0
+    #   };
