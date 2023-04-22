@@ -52,21 +52,13 @@ public class ChunkGenerator extends AstFullVisitor<Object, Object> {
         canonStmts.add(new ImcLABEL(entryLabel));
         
         ImcStmt bodyStmt = ImcGen.stmtImc.get(funDecl.stmt);
-        // if(bodyStmt instanceof ImcESTMT) {
-        //     ImcExpr bodyExpr = ((ImcESTMT) bodyStmt).expr;
-        //     ImcStmt newBodyStmt = new ImcMOVE(new ImcTEMP(frame.RV), bodyExpr);
-        //     canonStmts.addAll(newBodyStmt.accept(new StmtCanonizer(), null));
-        // }
-        // else {
-        //     throw new Report.Error(funDecl, "Holy fuck");
-        // }
+
         if (bodyStmt instanceof ImcESTMT) {
             ImcExpr bodyExpr = ((ImcESTMT) bodyStmt).expr;
             ImcStmt newBodyStmt = new ImcMOVE(new ImcTEMP(frame.RV), bodyExpr);
             canonStmts.addAll(newBodyStmt.accept(new StmtCanonizer(), null));
         }
         else if (bodyStmt instanceof ImcSTMTS) {
-            System.out.println("Here");
             ImcSTMTS stmts = (ImcSTMTS)bodyStmt;
             ImcStmt last = stmts.stmts.lastElement();
 
@@ -80,11 +72,11 @@ public class ChunkGenerator extends AstFullVisitor<Object, Object> {
                 canonStmts.addAll(newBodyStmt.accept(new StmtCanonizer(), null));
             }
             else {
-                System.out.println("Do nothing");
+                canonStmts.addAll(stmts.accept(new StmtCanonizer(), null));
+                canonStmts.add(new ImcMOVE(new ImcTEMP(frame.RV), new ImcCONST(0)));
             }
         }
         else {
-            // ImcExpr st = new ImcSEXPR(bodyStmt, new ImcCONST(0));
             canonStmts.addAll(bodyStmt.accept(new StmtCanonizer(), null));
         }
 

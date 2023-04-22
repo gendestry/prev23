@@ -57,7 +57,7 @@ public class CodeGenerator extends AstNullVisitor<Object, Stack<MemFrame>> {
 
 		if (pfxExpr.oper == AstPfxExpr.Oper.PTR) {
 			ImcMEM mem = (ImcMEM)ImcGen.exprImc.get(pfxExpr.expr);
-			ImcGen.exprImc.put(pfxExpr, mem);
+			ImcGen.exprImc.put(pfxExpr, mem.addr);
 			return mem.addr;
 		}
 
@@ -394,7 +394,6 @@ public class CodeGenerator extends AstNullVisitor<Object, Stack<MemFrame>> {
 	public Object visit(AstStmts stmts, Stack<MemFrame> stack) {
 		stmts.stmts.accept(this, stack);
 
-		AstStmt last = stmts.stmts.get(stmts.stmts.size() - 1);
 		Vector<ImcStmt> imcStmts = new Vector<>();
 		for(AstStmt stmt : stmts.stmts) {
 			imcStmts.add(ImcGen.stmtImc.get(stmt));
@@ -403,46 +402,6 @@ public class CodeGenerator extends AstNullVisitor<Object, Stack<MemFrame>> {
 		ImcStmt retStmts = new ImcSTMTS(imcStmts);
 		ImcGen.stmtImc.put(stmts, retStmts);
 		return retStmts;
-
-		// ImcSEXPR sexpr = null;
-		// if(last instanceof AstExprStmt) {
-		// 	imcStmts.remove(imcStmts.size() - 1);
-		// 	ImcExpr ex = ImcGen.exprImc.get(((AstExprStmt) last).expr);
-		// 	sexpr = new ImcSEXPR(new ImcSTMTS(imcStmts), ex);
-		// }
-		// else if(last instanceof AstDeclStmt) {
-		// 	imcStmts.remove(imcStmts.size() - 1);
-		// 	ImcStmt stmt = ImcGen.stmtImc.get(((AstDeclStmt) last).stmt);
-		// 	ImcESTMT estmt = null;
-
-		// 	if(stmt instanceof ImcESTMT) {
-		// 		estmt = (ImcESTMT)stmt;
-		// 		ImcGen.stmtImc.put(stmts, estmt);
-		// 		return estmt;
-		// 	}
-		// 	else if(stmt instanceof ImcSTMTS) {
-		// 		ImcSTMTS imcStmts2 = (ImcSTMTS)stmt;
-		// 		ImcStmt last2 = imcStmts2.stmts.lastElement();
-
-		// 		if(last2 instanceof ImcESTMT) {
-		// 			estmt = new ImcESTMT(new ImcSEXPR(stmt, ((ImcESTMT) last2).expr));
-		// 			ImcGen.stmtImc.put(stmts, estmt);
-		// 			return estmt;
-		// 		}
-		// 		else throw new Report.Error(stmts, "Unknown statement type");
-		// 	}
-		// 	else {
-		// 		throw new Report.Error(stmts, "Unknown statement type");
-		// 	}
-
-		// }
-		// else {
-		// 	sexpr = new ImcSEXPR(new ImcSTMTS(imcStmts), new ImcCONST(0L));
-		// }
-
-		// ImcStmt estmt = new ImcESTMT(sexpr);
-		// ImcGen.stmtImc.put(stmts, estmt);
-		// return estmt;
 	}
 
 
