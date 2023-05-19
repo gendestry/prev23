@@ -13,3 +13,6 @@ Prev*.java
 
 # vscode folder
 .vscode
+
+# zips
+*.zip

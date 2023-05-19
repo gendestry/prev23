@@ -11,6 +11,8 @@ import prev23.phase.memory.*;
 import prev23.phase.imcgen.*;
 import prev23.phase.imclin.*;
 import prev23.phase.asmgen.*;
+import prev23.phase.livean.*;
+import prev23.phase.regall.*;
 
 /**
  * The compiler.
@@ -45,7 +47,7 @@ public class Compiler {
 	// COMMAND LINE ARGUMENTS
 
 	/** All valid phases of the compiler. */
-	private static final String phases = "none|lexan|synan|abstr|seman|memory|imcgen|imclin|asmgen";
+	private static final String phases = "none|lexan|synan|abstr|seman|memory|imcgen|imclin|asmgen|livean|regall";
 
 	/** Values of command line arguments indexed by their command line switch. */
 	private static HashMap<String, String> cmdLineArgs = new HashMap<String, String>();
@@ -186,8 +188,31 @@ public class Compiler {
 				}
 				if (Compiler.cmdLineArgValue("--target-phase").equals("asmgen"))
 					break;
-			}
 
+				// Liveness analysis.
+				// By now you should know how to add another phase here ;-)
+				// And I assume you have done this so far.
+				try (LiveAn livean = new LiveAn()) {
+					livean.analysis();
+					livean.log();
+				}
+				if (Compiler.cmdLineArgValue("--target-phase").equals("livean"))
+					break;
+
+				// Register allocation.
+				// Again, you can do it on your own.
+				// This time, the phase is called 'regall'.
+				RegAll regall = new RegAll();
+				try {
+					regall.allocate();
+					regall.log();
+				}
+				catch (Exception e) { e.printStackTrace(); }
+				if (Compiler.cmdLineArgValue("--target-phase").equals("regall")) {
+					break;
+				}
+			}
+			
 			Report.info("Done.");
 		} catch (Report.Error __) {
 			System.exit(1);
