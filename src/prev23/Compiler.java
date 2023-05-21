@@ -201,9 +201,8 @@ public class Compiler {
 
 				// Register allocation.
 				// Again, you can do it on your own.
-				// This time, the phase is called 'regall'.
-				RegAll regall = new RegAll();
-				try {
+				// This time, the phase is called 'regall'.			
+				try (RegAll regall = new RegAll()){
 					regall.allocate();
 					regall.log();
 				}

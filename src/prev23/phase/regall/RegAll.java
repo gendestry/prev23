@@ -320,6 +320,8 @@ public class RegAll extends Phase {
 	public void log() {
 		if (logger == null)
 			return;
+
+		// tempToReg.forEach((key, value) -> System.out.println(key + " " + value));
 		for (Code code : AsmGen.codes) {
 			logger.begElement("code");
 			logger.addAttribute("entrylabel", code.entryLabel.name);
