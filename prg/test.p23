@@ -1,29 +1,51 @@
-var seed:int;
-fun random():int={seed=(75*(seed+1)-1)%65537;seed};
+# var seed:int;
+# fun random():int={seed=(75*(seed+1)-1)%65537;seed};
 
 fun putChar(c:char):void;
-fun endLine():void=putChar((10:char));
-    
-fun putInt(n:int):void=
-      let var buffer:[32]char;
-          var ptr:int;
-          var minus:bool;
-      in
-      if n==0 then putChar('0') else
-      {
-        minus=n<0;if n<0 then n=-n;
-        ptr=0;
-        while n>0 do {
-          buffer[ptr]=(((n%10)+('0':int)):char);
-          ptr=ptr+1;
-          n=n/10
-        };
-        if minus then putChar('-');
-        while ptr>0 do {
-          ptr=ptr-1;
-          putChar(buffer[ptr])
-        } 
-      };
+# fun endLine():void=putChar((10:char));
+
+# fun putString(s : ^char) : int =
+#     let var x : ^int;
+#         var count : int;
+#     in {
+#         count = 0;
+#         x = (s : ^int);
+#         while x^ != 0 do {
+#             putChar((x^ : char));
+#             x = ((x : int) + 8 : ^int);
+#             count = count + 1
+#         };
+#         count
+#     };
+
+# fun putStringln(s : ^char) : int =
+#     let var count : int;
+#     in {
+#         count = putString(s);
+#         endLine();
+#         count
+#     };
+
+# fun putInt(n:int):void=
+#       let var buffer:[32]char;
+#           var ptr:int;
+#           var minus:bool;
+#       in
+#       if n==0 then putChar('0') else
+#       {
+#         minus=n<0;if n<0 then n=-n;
+#         ptr=0;
+#         while n>0 do {
+#           buffer[ptr]=(((n%10)+('0':int)):char);
+#           ptr=ptr+1;
+#           n=n/10
+#         };
+#         if minus then putChar('-');
+#         while ptr>0 do {
+#           ptr=ptr-1;
+#           putChar(buffer[ptr])
+#         } 
+#       };
 
 # fun fib (n: int) : int =
 #     let var ret: int;
@@ -32,18 +54,40 @@ fun putInt(n:int):void=
 #        ret
 #     };
 
+fun abs(n : int) : int = {
+  if n < 0 then n =-n;
+  n
+};
+
 fun main() : void = 
-    let fun abs(n:int):int={if n<0 then n=-n;n};
-        var a:bool;
-        var i:int;
-        var ptr:^int;
-    in {
-        i = 1;
-        ptr = ^i;
-        putInt(ptr^);
-        putInt(-abs(-(i + 5)));
-        a = abs(-10) == abs(10) & false;
-        if a then putChar('!') else putChar('#')
-        # putInt(abs(-10));
-        # putInt(abs(10))
-    };
+    # let fun abs(n:int):int={if n<0 then n=-n;n};
+        # var a:bool;
+        # var i:int;
+        # var j:int;
+        # var n:int;
+        # var board:[16]int;
+    # in {
+        # a = true;
+        # i = 1;
+        # j = 1;
+        # board[j] = 2;
+        # n = 2;
+        if !false then putChar('a');
+        # abs(1 - 2);
+
+        # putInt(j - n);
+        # endLine();
+        # putInt(1 - 2)
+        # endLine();
+        # putInt(3 - 2);
+        # endLine();
+        # putInt(-1);
+        # endLine();
+        # putInt(abs(1 - 2));
+        # endLine();
+        # putInt(abs(j - n));
+        # endLine();
+
+        # if abs(board[j] - i) == abs(j - n) then a = false;
+        # if a then putChar('!') else putChar('#')
+    # };

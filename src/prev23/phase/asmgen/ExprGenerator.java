@@ -147,8 +147,8 @@ public class ExprGenerator implements ImcVisitor<MemTemp, Vector<AsmInstr>> {
         uses.add(ret);
 
         switch(unop.oper) {
-            case NOT -> { instrs.add(new AsmOPER("NEG `d0,0,`s0", uses, uses, null)); }
-            case NEG -> { instrs.add(new AsmOPER("NOR `d0,`s0,0", uses, uses, null)); }
+            case NOT -> { instrs.add(new AsmOPER("XOR `d0,`s0,1", uses, uses, null)); }
+            case NEG -> { instrs.add(new AsmOPER("NEG `d0,0,`s0", uses, uses, null)); }
         }
 
         return ret;
