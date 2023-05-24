@@ -16,11 +16,11 @@ import prev23.phase.livean.*;
 public class RegAll extends Phase {
 
 	/** Mapping of temporary variables to registers. */
-	public final HashMap<MemTemp, Integer> tempToReg = new HashMap<MemTemp, Integer>();
+	public static final HashMap<MemTemp, Integer> tempToReg = new HashMap<MemTemp, Integer>();
 	public final HashMap<MemTemp, Node> tempToNode = new HashMap<MemTemp, Node>();
 	public final HashMap<MemTemp, Long> offsets = new HashMap<MemTemp, Long>();
 
-	public int NUM_REGISTERS = 32;
+	public static final int NUM_REGISTERS = 32;
 
 	class Node {
 		private HashSet<MemTemp> cNodes;

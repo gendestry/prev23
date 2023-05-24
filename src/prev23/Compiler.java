@@ -13,6 +13,7 @@ import prev23.phase.imclin.*;
 import prev23.phase.asmgen.*;
 import prev23.phase.livean.*;
 import prev23.phase.regall.*;
+import prev23.phase.all.*;
 
 /**
  * The compiler.
@@ -47,7 +48,7 @@ public class Compiler {
 	// COMMAND LINE ARGUMENTS
 
 	/** All valid phases of the compiler. */
-	private static final String phases = "none|lexan|synan|abstr|seman|memory|imcgen|imclin|asmgen|livean|regall";
+	private static final String phases = "none|lexan|synan|abstr|seman|memory|imcgen|imclin|asmgen|livean|regall|all";
 
 	/** Values of command line arguments indexed by their command line switch. */
 	private static HashMap<String, String> cmdLineArgs = new HashMap<String, String>();
@@ -207,9 +208,19 @@ public class Compiler {
 					regall.log();
 				}
 				catch (Exception e) { e.printStackTrace(); }
-				if (Compiler.cmdLineArgValue("--target-phase").equals("regall")) {
+				if (Compiler.cmdLineArgValue("--target-phase").equals("regall"))
 					break;
+
+				// Last phase
+				try (LastPhase lastphase = new LastPhase()){
+					lastphase.prepare();
+					lastphase.exportToFile();
+					// lastphase.log();
 				}
+				catch (Exception e) { e.printStackTrace(); }
+				if (Compiler.cmdLineArgValue("--target-phase").equals("all"))
+					break;
+
 			}
 			
 			Report.info("Done.");

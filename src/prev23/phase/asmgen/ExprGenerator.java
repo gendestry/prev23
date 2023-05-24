@@ -2,6 +2,7 @@ package prev23.phase.asmgen;
 
 import java.util.*;
 import prev23.data.mem.*;
+import prev23.phase.regall.RegAll;
 import prev23.data.imc.code.expr.*;
 import prev23.data.imc.visitor.*;
 import prev23.data.asm.*;
@@ -28,7 +29,7 @@ public class ExprGenerator implements ImcVisitor<MemTemp, Vector<AsmInstr>> {
             case DIV -> { instrs.add(new AsmOPER("DIV `d0,`s0,`s1", uses, defs, null)); }
             case MOD -> { 
                 instrs.add(new AsmOPER("DIV `d0,`s0,`s1", uses, defs, null)); 
-                instrs.add(new AsmOPER("GET `d0,`rR", null, defs, null));
+                instrs.add(new AsmOPER("GET `d0,rR", null, defs, null));
             }
 
             case OR -> { instrs.add(new AsmOPER("OR `d0,`s0,`s1", uses, defs, null)); }
@@ -80,7 +81,7 @@ public class ExprGenerator implements ImcVisitor<MemTemp, Vector<AsmInstr>> {
         }
 
         jumps.add(call.label);
-        instrs.add(new AsmOPER("PUSHJ $8," + call.label.name, uses, null, jumps));
+        instrs.add(new AsmOPER("PUSHJ $" + RegAll.NUM_REGISTERS + "," + call.label.name, uses, null, jumps));
 
         MemTemp ret = new MemTemp();
         defs.add(ret);

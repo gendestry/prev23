@@ -63,8 +63,8 @@ public class StmtGenerator implements ImcVisitor<Vector<AsmInstr>, Object> {
         if (move.dst instanceof ImcMEM) {
             ImcMEM mem = (ImcMEM) move.dst;
             MemTemp tmp = mem.addr.accept(new ExprGenerator(), instrs);
-            uses.add(tmp);
             uses.add(src);
+            uses.add(tmp);
             instrs.add(new AsmOPER("STO `s0,`s1,0", uses, null, null));
             return instrs;
         }

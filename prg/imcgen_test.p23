@@ -79,6 +79,6 @@ fun main():int=
           var solutions:int;
       in
       {  
-        solutions=queens(^board,0,8);
+        solutions=queens(^board,0,5);
         solutions
       };
