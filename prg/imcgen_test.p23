@@ -53,12 +53,6 @@ fun queens(board:^[64]int,n:int,nn:int):int=
     let var solutions:int;
     in
     {
-        # putString("Start: ");
-        # putInt(n);
-        # putChar(' ');
-        # putInt(nn);
-        # endLine();
-
         if n==nn then {
         let var i:int;
             var j:int;
@@ -92,14 +86,6 @@ fun queens(board:^[64]int,n:int,nn:int):int=
                     ok=true;
                     j=0;
                     while j<n do {
-                        # putString("i: ");
-                        # putInt(i);
-                        # putString(", j: ");
-                        # putInt(j);
-                        # putString(", b: ");
-                        # putInt(board^[j]);
-                        # putString(", n: ");
-                        # putIntln(n);
                         if board^[j]==i then ok=false;
                         if abs(board^[j]-i)==abs(j-n) then ok=false;
                         j=j+1

@@ -201,8 +201,7 @@ public class NameResolver extends AstFullVisitor<Object, NameResolver.Mode> {
 		if(mode == Mode.BODY) {
 			symbTable.newScope();
 
-			declStmt.decls.accept(this, Mode.HEAD);
-			declStmt.decls.accept(this, Mode.BODY);
+			declStmt.decls.accept(this, null);
 
 			declStmt.stmt.accept(this, Mode.BODY);
 

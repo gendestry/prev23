@@ -61,13 +61,14 @@ public class ChunkGenerator extends AstFullVisitor<Object, Object> {
         else if (bodyStmt instanceof ImcSTMTS) {
             ImcSTMTS stmts = (ImcSTMTS)bodyStmt;
             ImcStmt last = stmts.stmts.lastElement();
-
+            
             if(last instanceof ImcESTMT) {
+                stmts.stmts.remove(stmts.stmts.size() - 1);
                 ImcExpr bodyExpr = ((ImcESTMT)last).expr;
                 ImcStmt newBodyStmt = new ImcMOVE(new ImcTEMP(frame.RV), bodyExpr);
                 
                 canonStmts.addAll(stmts.accept(new StmtCanonizer(), null));
-                canonStmts.remove(canonStmts.lastElement());
+                // canonStmts.remove(canonStmts.lastElement());
 
                 canonStmts.addAll(newBodyStmt.accept(new StmtCanonizer(), null));
             }
